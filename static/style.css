@@ -1,0 +1,49 @@
+:root {
+  --brand: #2563eb; /* blue */
+  --muted: #6b7280;
+  --bg: #f4f8fb;
+  --card: #ffffff;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  background: var(--bg);
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { text-decoration: none; }
+
+.navbar-brand { color: var(--brand); }
+
+.hero {
+  padding: 4rem 0;
+}
+
+.card {
+  background: var(--card);
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+.btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+.lead { color: var(--muted); }
+
+.form-check { margin-bottom: 0.5rem; }
+
+footer { background: transparent; }
+
+.table-responsive { margin-top: 1rem; }
+
+@media (max-width: 576px) {
+  .hero { padding: 2rem 0; }
+  .card { margin: 0 1rem; }
+}

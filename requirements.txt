@@ -1,0 +1,9 @@
+Flask>=2.2
+flask-login
+flask-sqlalchemy
+flask-migrate
+flask-wtf
+python-dotenv
+werkzeug
+pytest
+pytest-flask

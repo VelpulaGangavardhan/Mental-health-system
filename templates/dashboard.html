@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title">Your Mental Health Dashboard</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead><tr><th>Score</th><th>Stress Level</th></tr></thead>
+        <tbody>
+          {% for row in data %}
+          <tr><td>{{ row[0] }}</td><td>{{ row[1] }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="mt-3">
+      <a class="btn btn-primary" href="/screening">Take New Test</a>
+      <a class="btn btn-outline-danger ms-2" href="/logout">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

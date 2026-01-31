@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width:720px;">
+  <div class="card-body">
+    <h2 class="card-title">Your Result</h2>
+    <p><strong>Score:</strong> {{ score }}</p>
+    <div class="alert alert-info">{{ level }}</div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-secondary" href="/support">Find Support</a>
+      <a class="btn btn-outline-primary" href="/">Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width:720px;">
+  <div class="card-body">
+    <h2 class="card-title">Mental Health Screening</h2>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      <div class="mb-3">
+        {{ form.q1.label(class_='form-label') }}
+        {% for choice in form.q1 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        {{ form.q2.label(class_='form-label') }}
+        {% for choice in form.q2 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="mb-3">
+        {{ form.q3.label(class_='form-label') }}
+        {% for choice in form.q3 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <a class="btn btn-link" href="/">Back</a>
+        <button class="btn btn-primary" type="submit">{{ form.submit.label.text }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
