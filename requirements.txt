@@ -7,3 +7,6 @@ python-dotenv
 werkzeug
 pytest
 pytest-flask
+pandas
+matplotlib
+Pillow

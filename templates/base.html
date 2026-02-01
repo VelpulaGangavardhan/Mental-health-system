@@ -22,7 +22,23 @@
         </ul>
         <ul class="navbar-nav">
           {% if current_user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Tools
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                <li><a class="dropdown-item" href="/extended-screening">Extended Assessment</a></li>
+                <li><a class="dropdown-item" href="/history">Screening History</a></li>
+                <li><a class="dropdown-item" href="/analytics">Analytics</a></li>
+                <li><a class="dropdown-item" href="/coping-strategies">Coping Strategies</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                {% if current_user.is_admin() %}
+                <li><a class="dropdown-item text-danger" href="/admin">Admin Panel</a></li>
+                {% endif %}
+              </ul>
+            </li>
             <li class="nav-item"><a class="nav-link btn btn-outline-danger ms-2" href="/logout">Logout</a></li>
           {% else %}
             <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>

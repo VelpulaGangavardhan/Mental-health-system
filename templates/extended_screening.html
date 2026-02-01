@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Extended Mental Health Assessment - Mental Health Platform{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <h3 class="mb-1">Comprehensive Mental Health Assessment</h3>
+              <p class="text-muted mb-0">A short questionnaire evaluating stress, anxiety, sleep, mood and social support. Your responses are confidential.</p>
+            </div>
+            <small class="text-muted">Estimated time: 3–5 minutes</small>
+          </div>
+
+          <div class="mb-4" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <div class="progress" style="height:8px;">
+              <div class="progress-bar bg-info" style="width:40%"></div>
+            </div>
+          </div>
+
+          <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            {# Reusable rendering block for radio groups #}
+            {% macro radio_group(field, qnum) -%}
+            <fieldset class="mb-4">
+              <legend class="h6 fw-semibold">{{ qnum }}. {{ field.label.text }}</legend>
+              <div class="small text-muted mb-2">Select the option that best describes your experience in the past two weeks.</div>
+              {% for subfield in field %}
+                <div class="form-check">
+                  {{ subfield(class='form-check-input', id=subfield.id) }}
+                  <label class="form-check-label" for="{{ subfield.id }}">{{ subfield.label.text }}</label>
+                </div>
+              {% endfor %}
+            </fieldset>
+            {%- endmacro %}
+
+            <!-- Stress -->
+            <section aria-labelledby="stress-heading" class="mb-3">
+              <h5 id="stress-heading" class="text-primary">Stress</h5>
+              {{ radio_group(form.stress_q1, '1') }}
+              {{ radio_group(form.stress_q2, '2') }}
+            </section>
+
+            <!-- Anxiety -->
+            <section aria-labelledby="anxiety-heading" class="mb-3">
+              <h5 id="anxiety-heading" class="text-primary">Anxiety</h5>
+              {{ radio_group(form.anxiety_q1, '3') }}
+              {{ radio_group(form.anxiety_q2, '4') }}
+            </section>
+
+            <!-- Sleep -->
+            <section aria-labelledby="sleep-heading" class="mb-3">
+              <h5 id="sleep-heading" class="text-primary">Sleep</h5>
+              {{ radio_group(form.sleep_q1, '5') }}
+              {{ radio_group(form.sleep_q2, '6') }}
+            </section>
+
+            <!-- Depression -->
+            <section aria-labelledby="depression-heading" class="mb-3">
+              <h5 id="depression-heading" class="text-primary">Mood / Depression</h5>
+              {{ radio_group(form.depression_q1, '7') }}
+              {{ radio_group(form.depression_q2, '8') }}
+            </section>
+
+            <!-- Social -->
+            <section aria-labelledby="social-heading" class="mb-3">
+              <h5 id="social-heading" class="text-primary">Social Support</h5>
+              {{ radio_group(form.social_q1, '9') }}
+              {{ radio_group(form.social_q2, '10') }}
+            </section>
+
+            <!-- Notes -->
+            <div class="mb-4">
+              <label for="notes" class="form-label">Additional notes (optional)</label>
+              {{ form.notes(id='notes', class='form-control', rows='4', placeholder='Any additional information you want to share...') }}
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+              <a href="/dashboard" class="btn btn-outline-secondary">Cancel</a>
+              {{ form.submit(class='btn btn-primary') }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

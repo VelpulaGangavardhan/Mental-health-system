@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics & Insights - Mental Health Platform{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h2 class="mb-4">Your Mental Health Analytics</h2>
+
+      {% if stats %}
+      <!-- Key Metrics -->
+      <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Total Screenings</h6>
+              <h2 class="text-primary">{{ stats.total }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Average Score</h6>
+              <h2 class="text-info">{{ stats.avg_score }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Score Range</h6>
+              <p class="mb-0"><strong>{{ stats.min_score }}</strong> - <strong>{{ stats.max_score }}</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Overall Trend</h6>
+              {% if stats.trend == 'Improving' %}
+                <p class="mb-0 text-success"><strong>{{ stats.trend }}</strong> ↓</p>
+              {% elif stats.trend == 'Worsening' %}
+                <p class="mb-0 text-danger"><strong>{{ stats.trend }}</strong> ↑</p>
+              {% else %}
+                <p class="mb-0 text-muted"><strong>{{ stats.trend }}</strong> →</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level Distribution -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+              <h5 class="mb-0">Risk Level Distribution</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="distributionChart" style="max-height: 300px;"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">Summary</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <p class="mb-1"><strong>Last Screening:</strong></p>
+                <p class="text-muted">{{ stats.last_screening }}</p>
+              </div>
+              <div class="mb-3">
+                <p class="mb-1"><strong>Low Risk Screenings:</strong></p>
+                <p class="text-success"><strong>{{ stats.level_distribution.Low }}</strong></p>
+              </div>
+              <div class="mb-3">
+                <p class="mb-1"><strong>Moderate Risk Screenings:</strong></p>
+                <p class="text-warning"><strong>{{ stats.level_distribution.Moderate }}</strong></p>
+              </div>
+              <div>
+                <p class="mb-1"><strong>High Risk Screenings:</strong></p>
+                <p class="text-danger"><strong>{{ stats.level_distribution.High }}</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Insights Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Insights & Recommendations</h5>
+        </div>
+        <div class="card-body">
+          {% if stats.trend == 'Improving' %}
+            <div class="alert alert-success">
+              <strong>Great progress!</strong> Your mental health scores are improving. Keep up with your current wellness routines and continue monitoring your progress.
+            </div>
+          {% elif stats.trend == 'Worsening' %}
+            <div class="alert alert-danger">
+              <strong>Concern noticed:</strong> Your recent scores suggest an increasing trend. Consider reaching out to a mental health professional for support.
+            </div>
+          {% else %}
+            <div class="alert alert-info">
+              <strong>Stable:</strong> Your mental health appears stable. Continue with regular self-care practices.
+            </div>
+          {% endif %}
+
+          {% if stats.level_distribution.High > 0 %}
+            <div class="alert alert-warning">
+              <strong>Note:</strong> You have {{ stats.level_distribution.High }} screening(s) with high risk scores. Please consider professional support if needed.
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2 mb-4">
+        <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+        <a href="/history" class="btn btn-secondary">View History</a>
+        <a href="/export-data" class="btn btn-success">Export Data</a>
+      </div>
+      {% else %}
+      <div class="alert alert-info">
+        <p>No data available yet. <a href="/screening">Complete your first screening</a> to see analytics.</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  {% if stats %}
+  const ctx = document.getElementById('distributionChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Low Risk', 'Moderate Risk', 'High Risk'],
+      datasets: [{
+        data: [{{ stats.level_distribution.Low }}, {{ stats.level_distribution.Moderate }}, {{ stats.level_distribution.High }}],
+        backgroundColor: ['#198754', '#ffc107', '#dc3545'],
+        borderColor: '#fff',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+  {% endif %}
+</script>
+{% endblock %}

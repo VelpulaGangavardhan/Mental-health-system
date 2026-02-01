@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Results - Mental Health Platform{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <!-- Overall Result Card -->
+      <div class="card shadow mb-4">
+        <div class="card-header {% if level == 'High' %}bg-danger{% elif level == 'Moderate' %}bg-warning{% else %}bg-success{% endif %} text-white">
+          <h4 class="mb-0">Assessment Complete</h4>
+        </div>
+        <div class="card-body text-center">
+          <h1 class="display-4 mb-3">{{ total_score }}</h1>
+          <h3 class="mb-3">
+            <span class="badge {% if level == 'High' %}bg-danger{% elif level == 'Moderate' %}bg-warning{% else %}bg-success{% endif %}">
+              {{ level }} Risk Level
+            </span>
+          </h3>
+          <p class="lead text-muted">Your comprehensive assessment score</p>
+        </div>
+      </div>
+
+      <!-- Component Scores -->
+      <div class="card shadow mb-4">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">Component Breakdown</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="p-3 border rounded">
+                <h6>Stress Score</h6>
+                <h4 class="text-primary">{{ stress_score }}/4</h4>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="p-3 border rounded">
+                <h6>Anxiety Score</h6>
+                <h4 class="text-primary">{{ anxiety_score }}/4</h4>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="p-3 border rounded">
+                <h6>Sleep Score</h6>
+                <h4 class="text-primary">{{ sleep_score }}/4</h4>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="p-3 border rounded">
+                <h6>Depression Score</h6>
+                <h4 class="text-primary">{{ depression_score }}/4</h4>
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <div class="p-3 border rounded">
+                <h6>Social Support Score</h6>
+                <h4 class="text-primary">{{ social_score }}/4</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Recommended Actions</h5>
+        </div>
+        <div class="card-body">
+          {% for rec in recommendations %}
+          <div class="mb-3 p-3 border rounded">
+            <h6 class="text-primary">{{ rec.title }}</h6>
+            <p class="mb-0 text-muted">{{ rec.description }}</p>
+            <small class="text-secondary">{{ rec.category|capitalize }}</small>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex gap-2 mb-4">
+        <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+        <a href="/history" class="btn btn-secondary">View History</a>
+        <a href="/coping-strategies" class="btn btn-info">Log Coping Strategies</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Mental Health Platform{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h2 class="mb-4">Admin Dashboard</h2>
+
+      <!-- Key Metrics -->
+      <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Total Users</h6>
+              <h2 class="text-primary">{{ total_users }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Total Screenings</h6>
+              <h2 class="text-info">{{ total_screenings }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card text-center shadow">
+            <div class="card-body">
+              <h6 class="text-muted">Avg Screenings/User</h6>
+              <h2 class="text-success">{{ (total_screenings / total_users) if total_users > 0 else 0 | round(2) }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Management -->
+      <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+          <h5 class="mb-0">User Management</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                <tr>
+                  <td><strong>{{ user.username }}</strong></td>
+                  <td>{{ user.email or '-' }}</td>
+                  <td>
+                    {% if user.is_admin() %}
+                      <span class="badge bg-danger">Admin</span>
+                    {% else %}
+                      <span class="badge bg-secondary">User</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                  <td>
+                    <form method="POST" style="display: inline;">
+                      <button type="submit" formaction="/admin/users/{{ user.id }}/toggle-admin" 
+                              class="btn btn-sm {% if user.is_admin() %}btn-warning{% else %}btn-info{% endif %}">
+                        {% if user.is_admin() %}Remove Admin{% else %}Make Admin{% endif %}
+                      </button>
+                      {% if user.id != current_user.id %}
+                        <button type="submit" formaction="/admin/users/{{ user.id }}/delete" 
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Are you sure?')">
+                          Delete
+                        </button>
+                      {% endif %}
+                    </form>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

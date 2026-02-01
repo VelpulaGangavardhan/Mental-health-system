@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Screening History - Mental Health Platform{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <h2 class="mb-4">Screening History</h2>
+
+      {% if screenings %}
+      <!-- Chart -->
+      <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Score Trend</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="scoreChart" style="max-height: 300px;"></canvas>
+        </div>
+      </div>
+
+      <!-- Detailed List -->
+      <div class="card shadow">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">All Screenings</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>Date</th>
+                  <th>Score</th>
+                  <th>Level</th>
+                  <th>Trend</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for screening in screenings %}
+                <tr>
+                  <td>{{ screening.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                  <td><strong>{{ screening.score }}</strong></td>
+                  <td>
+                    {% if screening.level == 'High' %}
+                      <span class="badge bg-danger">{{ screening.level }}</span>
+                    {% elif screening.level == 'Moderate' %}
+                      <span class="badge bg-warning">{{ screening.level }}</span>
+                    {% else %}
+                      <span class="badge bg-success">{{ screening.level }}</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if loop.first %}
+                      Latest
+                    {% else %}
+                      {% set prev_score = screenings[loop.index0 - 1].score %}
+                      {% if screening.score < prev_score %}
+                        <span class="text-success">↓ Improving</span>
+                      {% elif screening.score > prev_score %}
+                        <span class="text-danger">↑ Worsening</span>
+                      {% else %}
+                        <span class="text-muted">→ Stable</span>
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+        <a href="/analytics" class="btn btn-secondary">View Analytics</a>
+        <a href="/export-data" class="btn btn-success">Export Data</a>
+      </div>
+      {% else %}
+      <div class="alert alert-info">
+        <p>No screenings yet. <a href="/screening">Start your first screening</a></p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const chartData = {{ chart_data|safe }};
+  const ctx = document.getElementById('scoreChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartData.map(d => d.date),
+      datasets: [{
+        label: 'Score',
+        data: chartData.map(d => d.score),
+        borderColor: '#0d6efd',
+        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 20
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

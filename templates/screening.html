@@ -3,26 +3,87 @@
 {% block content %}
 <div class="card mx-auto" style="max-width:720px;">
   <div class="card-body">
-    <h2 class="card-title">Mental Health Screening</h2>
+    <h2 class="card-title">Quick Mental Health Screening</h2>
+    <p class="text-muted">Please answer the following 10 questions honestly. Your responses will help us understand your mental health status.</p>
     <form method="post">
       {{ form.hidden_tag() }}
-      <div class="mb-3">
-        {{ form.q1.label(class_='form-label') }}
+      
+      <!-- Question 1 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>1. {{ form.q1.label.text }}</strong></div>
         {% for choice in form.q1 %}
           <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
         {% endfor %}
       </div>
 
-      <div class="mb-3">
-        {{ form.q2.label(class_='form-label') }}
+      <!-- Question 2 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>2. {{ form.q2.label.text }}</strong></div>
         {% for choice in form.q2 %}
           <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
         {% endfor %}
       </div>
 
-      <div class="mb-3">
-        {{ form.q3.label(class_='form-label') }}
+      <!-- Question 3 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>3. {{ form.q3.label.text }}</strong></div>
         {% for choice in form.q3 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 4 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>4. {{ form.q4.label.text }}</strong></div>
+        {% for choice in form.q4 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 5 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>5. {{ form.q5.label.text }}</strong></div>
+        {% for choice in form.q5 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 6 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>6. {{ form.q6.label.text }}</strong></div>
+        {% for choice in form.q6 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 7 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>7. {{ form.q7.label.text }}</strong></div>
+        {% for choice in form.q7 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 8 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>8. {{ form.q8.label.text }}</strong></div>
+        {% for choice in form.q8 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 9 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>9. {{ form.q9.label.text }}</strong></div>
+        {% for choice in form.q9 %}
+          <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 10 -->
+      <div class="mb-4">
+        <div class="mb-2"><strong>10. {{ form.q10.label.text }}</strong></div>
+        {% for choice in form.q10 %}
           <div class="form-check">{{ choice(class_='form-check-input') }} {{ choice.label(class_='form-check-label') }}</div>
         {% endfor %}
       </div>
