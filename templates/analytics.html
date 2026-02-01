@@ -142,7 +142,7 @@
     data: {
       labels: ['Low Risk', 'Moderate Risk', 'High Risk'],
       datasets: [{
-        data: [{{ stats.level_distribution.Low }}, {{ stats.level_distribution.Moderate }}, {{ stats.level_distribution.High }}],
+        data: [{{ stats.level_distribution.Low|int }}, {{ stats.level_distribution.Moderate|int }}, {{ stats.level_distribution.High|int }}],
         backgroundColor: ['#198754', '#ffc107', '#dc3545'],
         borderColor: '#fff',
         borderWidth: 2
