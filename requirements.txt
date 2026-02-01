@@ -3,6 +3,7 @@ flask-login
 flask-sqlalchemy
 flask-migrate
 flask-wtf
+email-validator
 python-dotenv
 werkzeug
 pytest
@@ -10,3 +11,6 @@ pytest-flask
 pandas
 matplotlib
 Pillow
+gunicorn>=20.1
+psycopg2-binary
+SQLAlchemy>=2.0
